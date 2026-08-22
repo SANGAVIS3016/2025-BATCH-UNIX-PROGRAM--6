@@ -1,0 +1,51 @@
+name: CAT Command Autograding
+
+on:
+  push:
+  pull_request:
+
+jobs:
+
+  autograding:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Student Repository
+        uses: actions/checkout@v4
+
+      - name: Give Execute Permission
+        run: |
+          chmod +x student.sh
+          chmod +x tests/test_cat_command.sh
+
+      - name: Run Student Program
+        run: ./student.sh
+
+      - name: Display Created Files
+        run: |
+          echo "=========================================="
+          echo "Files in Student Repository"
+          echo "=========================================="
+          ls -l
+
+      - name: Display File Contents
+        run: |
+          echo "----- newfile.txt -----"
+          cat newfile.txt || true
+
+          echo ""
+          echo "----- file1.txt -----"
+          cat file1.txt || true
+
+          echo ""
+          echo "----- file2.txt -----"
+          cat file2.txt || true
+
+          echo ""
+          echo "----- existingfile.txt -----"
+          cat existingfile.txt || true
+
+      - name: Run Test Cases
+        run: ./tests/test_cat_command.sh
